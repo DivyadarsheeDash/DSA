@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Smart City Traffic Control System</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <header class="text-center mb-10">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800">Smart City Traffic Control System</h1>
+            <p class="text-gray-600 mt-2">Find the fastest route for emergency vehicles using Dijkstra's algorithm</p>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Graph Visualization -->
+            <div class="lg:col-span-2 bg-white rounded-xl shadow-lg p-6">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">City Intersections Graph</h2>
+                <div id="graph-container" style="height: 400px; min-height: 400px; border: 2px solid #e2e8f0; border-radius: 8px; background-color: white;"></div>
+                <div class="mt-4 flex flex-wrap gap-2">
+                    <div class="flex items-center">
+                        <div class="w-4 h-4 bg-blue-500 rounded-full mr-2"></div>
+                        <span class="text-sm">Current Node</span>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-4 h-4 bg-yellow-400 rounded-full mr-2"></div>
+                        <span class="text-sm">Visited Node</span>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-4 h-4 bg-green-500 rounded-full mr-2"></div>
+                        <span class="text-sm">Final Path</span>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-4 h-0.5 bg-red-500 mr-2"></div>
+                        <span class="text-sm">Shortest Path</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Controls and Output -->
+            <div class="space-y-6">
+                <div class="controls-panel">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Route Configuration</h2>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Starting Node (Emergency Vehicle)</label>
+                            <select id="start-node" class="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                                <option value="0">Main Square</option>
+                                <option value="1">Central Hospital</option>
+                                <option value="2">City Park</option>
+                                <option value="3">Shopping Mall</option>
+                                <option value="4">Train Station</option>
+                                <option value="5">University</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Target Node (Hospital)</label>
+                            <select id="end-node" class="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                                <option value="0">Main Square</option>
+                                <option value="1">Central Hospital</option>
+                                <option value="2">City Park</option>
+                                <option value="3">Shopping Mall</option>
+                                <option value="4">Train Station</option>
+                                <option value="5">University</option>
+                            </select>
+                        </div>
+                        <button id="run-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition duration-200">
+                            Find Fastest Route
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Algorithm Output</h2>
+                    <div id="distances" class="space-y-2 mb-6">
+                        <!-- Distances will be populated here -->
+                    </div>
+                    <div id="path-result" class="hidden">
+                        <h3 class="font-medium text-gray-700 mb-2">Shortest Path:</h3>
+                        <div id="path-nodes" class="bg-blue-50 p-3 rounded-md font-mono"></div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Algorithm Steps</h2>
+                    <div id="algorithm-steps" class="space-y-2 max-h-60 overflow-y-auto">
+                        <div class="algorithm-step">
+                            <p>Select a starting node and target node, then click "Find Fastest Route" to begin.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // First check if D3 is loaded
+        window.onload = function() {
+            if (typeof d3 === 'undefined') {
+                console.error('D3.js is not loaded!');
+                return;
+            }
+            console.log('D3 version:', d3.version);
+            
+            // Simple test to see if we can create an SVG
+            const svg = d3.select("#graph-container")
+                .append("svg")
+                .attr("width", "100%")
+                .attr("height", "400")
+                .style("border", "2px solid blue");
+            
+            // Add a test circle
+            svg.append("circle")
+                .attr("cx", 100)
+                .attr("cy", 100)
+                .attr("r", 30)
+                .style("fill", "red");
+        };
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>
